@@ -1,4 +1,22 @@
 import streamlit as st
+from PIL import Image
+from pathlib import Path
+
+ASSETS_DIR = Path('assets')
+LOGO_PATH = ASSETS_DIR / 'logo.png'
+MILK_PATH = ASSETS_DIR / 'milk.png'
+CURD_PATH = ASSETS_DIR / 'curd.png'
+PANEER_PATH = ASSETS_DIR / 'paneer.png'
+GHEE_PATH = ASSETS_DIR / 'ghee.png'
+
+def load_image(path: Path):
+    return Image.open(path) if path.exists() else None
+
+logo = load_image(LOGO_PATH)
+milk_img = load_image(MILK_PATH)
+curd_img = load_image(CURD_PATH)
+paneer_img = load_image(PANEER_PATH)
+ghee_img = load_image(GHEE_PATH)
 
 # --------------------------------------------------
 # PAGE CONFIG
@@ -586,6 +604,19 @@ def render_title(title: str, subtitle: str = ""):
         st.markdown(f'<div class="section-subtitle">{subtitle}</div>', unsafe_allow_html=True)
 
 
+def get_product_image(product_name: str):
+    name = product_name.lower()
+    if any(k in name for k in ["milk", "uht"]):
+        return milk_img
+    if any(k in name for k in ["curd", "buttermilk", "lassi"]):
+        return curd_img
+    if "paneer" in name or "sweets" in name or "peda" in name:
+        return paneer_img
+    if "ghee" in name:
+        return ghee_img
+    return None
+
+
 # --------------------------------------------------
 # CITY PICKER
 # --------------------------------------------------
@@ -643,7 +674,10 @@ st.markdown(
 st.markdown('<div class="navbar-shell">', unsafe_allow_html=True)
 n1, n2, n3, n4 = st.columns([1.1, 2.8, 1.2, 0.8])
 with n1:
-    st.markdown('<div class="brand">Dodla <span>Dairy</span> 🥛</div>', unsafe_allow_html=True)
+    if logo is not None:
+        st.image(logo, width=95)
+    else:
+        st.markdown('<div class="brand">Dodla <span>Dairy</span> 🥛</div>', unsafe_allow_html=True)
 with n2:
     search_query = st.text_input(
         "",
@@ -777,9 +811,25 @@ with shop_col:
                         f"""
                         <div class="card product-card">
                           {badges}
-                          <div class="product-emoji">{product['emoji']}</div>
                           <h4>{product['name']}</h4>
                           <div class="small">{category}</div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+                    img = get_product_image(product["name"])
+                    if img is not None:
+                        st.image(img, use_container_width=True)
+                    else:
+                        st.markdown(
+                            f'<div class="card product-card" style="text-align:center;"><div class="product-emoji">{product["emoji"]}</div></div>',
+                            unsafe_allow_html=True,
+                        )
+
+                    st.markdown(
+                        f"""
+                        <div class="card product-card" style="padding-top:0;">
                           <p style="margin-top:8px;">{product['desc']}</p>
                         </div>
                         """,
