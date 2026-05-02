@@ -1,5 +1,8 @@
 import streamlit as st
 
+# --------------------------------------------------
+# PAGE CONFIG
+# --------------------------------------------------
 st.set_page_config(
     page_title="Dodla Dairy",
     page_icon="🥛",
@@ -7,374 +10,451 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# -----------------------------
-# THEME / STYLE
-# -----------------------------
+# --------------------------------------------------
+# PREMIUM THEME / STYLES
+# --------------------------------------------------
 st.markdown(
     """
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-  html, body, [class*="css"] {
-    font-family: 'Poppins', sans-serif;
-  }
+      html, body, [class*="css"]  {
+        font-family: 'Poppins', sans-serif;
+        background: #fffdfd;
+        color: #1d1b1b;
+      }
 
-  :root {
-    --dodla-blue: #003087;
-    --dodla-blue-2: #0055c8;
-    --dodla-gold: #f5a623;
-    --dodla-bg: #f6f8fc;
-    --dodla-text: #172033;
-    --muted: #6d7485;
-    --card: #ffffff;
-    --line: rgba(10, 24, 58, 0.08);
-  }
+      :root{
+        --bg: #fffdfd;
+        --surface: #ffffff;
+        --surface-2: #fff7f7;
+        --line: rgba(224, 60, 72, 0.12);
+        --text: #1d1b1b;
+        --muted: #6f6767;
+        --red: #e53e4d;
+        --red-2: #ff6b78;
+        --red-3: #ffedf0;
+        --shadow: 0 18px 50px rgba(92, 20, 27, 0.08);
+        --shadow-soft: 0 8px 24px rgba(92, 20, 27, 0.06);
+        --radius-xl: 30px;
+        --radius-lg: 22px;
+        --radius-md: 18px;
+      }
 
-  .block-container {
-    padding-top: 0.5rem;
-    padding-bottom: 2rem;
-  }
+      .block-container{
+        padding-top: 0.5rem;
+        padding-bottom: 2rem;
+        max-width: 1400px;
+      }
 
-  #MainMenu, footer, header { visibility: hidden; }
+      #MainMenu, footer, header { visibility: hidden; }
 
-  .topbar {
-    background: linear-gradient(90deg, var(--dodla-blue), var(--dodla-blue-2));
-    color: white;
-    text-align: center;
-    padding: 8px 12px;
-    font-size: 13px;
-    letter-spacing: 0.2px;
-    border-radius: 0 0 16px 16px;
-    margin-bottom: 10px;
-  }
+      .topbar {
+        background: linear-gradient(90deg, #fff5f5, #ffecee);
+        color: var(--red);
+        border: 1px solid rgba(229, 62, 77, 0.14);
+        text-align: center;
+        padding: 10px 16px;
+        border-radius: 0 0 18px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        margin-bottom: 12px;
+      }
 
-  .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 14px 18px;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(16, 24, 40, 0.06);
-    position: sticky;
-    top: 8px;
-    z-index: 999;
-    margin-bottom: 16px;
-  }
+      .navbar-shell {
+        position: sticky;
+        top: 8px;
+        z-index: 999;
+        background: rgba(255,255,255,0.78);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(229, 62, 77, 0.10);
+        border-radius: 22px;
+        padding: 14px 16px;
+        box-shadow: var(--shadow-soft);
+        margin-bottom: 18px;
+      }
 
-  .brand {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--dodla-blue);
-    line-height: 1;
-    white-space: nowrap;
-  }
+      .brand {
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: var(--text);
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .brand span { color: var(--red); }
 
-  .brand span { color: var(--dodla-gold); }
+      .hero {
+        background:
+          radial-gradient(circle at top right, rgba(255,255,255,0.20), transparent 28%),
+          linear-gradient(135deg, #fff7f8 0%, #fff1f3 45%, #ffe7ea 100%);
+        border: 1px solid rgba(229, 62, 77, 0.10);
+        border-radius: 34px;
+        padding: 34px;
+        box-shadow: var(--shadow);
+        margin: 6px 0 24px;
+        overflow: hidden;
+      }
 
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 24px;
+        align-items: center;
+      }
 
-  .nav-link {
-    color: var(--dodla-text);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 8px 10px;
-    border-radius: 999px;
-    background: rgba(0,48,135,0.04);
-  }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 14px;
+        background: rgba(229, 62, 77, 0.08);
+        border: 1px solid rgba(229, 62, 77, 0.12);
+        color: var(--red);
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
 
-  .hero {
-    background: linear-gradient(135deg, var(--dodla-blue) 0%, #0e4cb8 55%, #1b7bff 100%);
-    border-radius: 28px;
-    color: white;
-    padding: 36px 34px;
-    box-shadow: 0 20px 48px rgba(0,48,135,0.22);
-    margin: 8px 0 24px;
-    overflow: hidden;
-  }
+      .hero h1 {
+        font-size: 54px;
+        line-height: 1.02;
+        margin: 14px 0 12px;
+        font-weight: 800;
+        letter-spacing: -1.5px;
+        color: var(--text);
+      }
+      .hero h1 span { color: var(--red); }
 
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 24px;
-    align-items: center;
-  }
+      .hero p {
+        font-size: 16px;
+        line-height: 1.75;
+        margin: 0 0 18px;
+        color: var(--muted);
+        max-width: 720px;
+      }
 
-  .hero h1 {
-    font-size: 46px;
-    line-height: 1.05;
-    margin: 0 0 12px;
-    font-weight: 800;
-  }
+      .hero-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 12px 0 0;
+      }
 
-  .hero h1 span { color: var(--dodla-gold); }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid var(--line);
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 600;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.03);
+      }
 
-  .hero p {
-    font-size: 16px;
-    line-height: 1.65;
-    margin: 0 0 18px;
-    opacity: 0.95;
-    max-width: 700px;
-  }
+      .hero-panel {
+        background: linear-gradient(180deg, #ffffff, #fff9f9);
+        border: 1px solid rgba(229, 62, 77, 0.10);
+        border-radius: 30px;
+        padding: 24px;
+        box-shadow: 0 14px 30px rgba(92, 20, 27, 0.06);
+        text-align: center;
+      }
 
-  .hero-actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 8px;
-  }
+      .hero-emoji {
+        font-size: 88px;
+        line-height: 1;
+        margin-bottom: 12px;
+      }
 
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.14);
-    border: 1px solid rgba(255,255,255,0.16);
-    font-size: 13px;
-    font-weight: 600;
-    margin-right: 8px;
-    margin-top: 8px;
-  }
+      .hero-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 18px;
+      }
 
-  .hero-card {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.16);
-    border-radius: 24px;
-    padding: 20px;
-    text-align: center;
-  }
+      .metric {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 14px 8px;
+      }
+      .metric h3 {
+        margin: 0;
+        font-size: 18px;
+        color: var(--red);
+      }
+      .metric p {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.4;
+      }
 
-  .hero-emoji {
-    font-size: 88px;
-    line-height: 1;
-    margin-bottom: 10px;
-  }
+      .section-title {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--text);
+        letter-spacing: -0.5px;
+        margin: 12px 0 3px;
+      }
+      .section-title span { color: var(--red); }
+      .section-subtitle {
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 14px;
+      }
 
-  .hero-mini {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-top: 16px;
-  }
+      .grid-3, .grid-4, .grid-5 {
+        display: grid;
+        gap: 16px;
+      }
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+      .grid-4 { grid-template-columns: repeat(4, 1fr); }
+      .grid-5 { grid-template-columns: repeat(5, 1fr); }
 
-  .mini-stat {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 18px;
-    padding: 14px 10px;
-    text-align: center;
-  }
+      .card {
+        background: var(--surface);
+        border: 1px solid rgba(229, 62, 77, 0.10);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-soft);
+        padding: 18px;
+        height: 100%;
+      }
 
-  .mini-stat h3 {
-    margin: 0;
-    font-size: 18px;
-    color: #fff;
-  }
+      .promo-card {
+        min-height: 154px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: linear-gradient(180deg, #fff, #fff7f8);
+      }
 
-  .mini-stat p {
-    margin: 4px 0 0;
-    font-size: 12px;
-    opacity: 0.9;
-  }
+      .promo-label {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: var(--red-3);
+        color: var(--red);
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
 
-  .section-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--dodla-blue);
-    margin: 10px 0 2px;
-  }
+      .promo-card h3, .feature-card h3, .product-card h4, .form-card h3 {
+        margin: 0 0 6px;
+        color: var(--text);
+        letter-spacing: -0.2px;
+      }
 
-  .section-subtitle {
-    color: var(--muted);
-    font-size: 14px;
-    margin-bottom: 14px;
-  }
+      .promo-card p, .feature-card p, .product-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.65;
+      }
 
-  .promo-grid, .info-grid, .testimonial-grid, .category-grid {
-    display: grid;
-    gap: 16px;
-  }
+      .promo-emoji {
+        font-size: 48px;
+        line-height: 1;
+        text-align: right;
+      }
 
-  .promo-grid { grid-template-columns: repeat(3, 1fr); }
-  .info-grid { grid-template-columns: repeat(4, 1fr); }
-  .testimonial-grid { grid-template-columns: repeat(3, 1fr); }
-  .category-grid { grid-template-columns: repeat(5, 1fr); }
+      .category-pill {
+        background: #fff;
+        border: 1px solid rgba(229, 62, 77, 0.10);
+        border-radius: 18px;
+        padding: 16px 12px;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+        font-weight: 700;
+        color: var(--text);
+        font-size: 13px;
+      }
 
-  .card {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    box-shadow: 0 10px 24px rgba(18, 31, 62, 0.05);
-    padding: 16px;
-    height: 100%;
-  }
+      .product-card {
+        position: relative;
+        overflow: hidden;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,249,249,0.98));
+      }
 
-  .promo-card {
-    min-height: 140px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    background: linear-gradient(135deg, #ffffff 0%, #f5f8ff 100%);
-  }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 5px 10px;
+        border-radius: 999px;
+        margin-right: 6px;
+        margin-bottom: 10px;
+      }
+      .badge.best { background: #fff1c8; color: #946200; }
+      .badge.sale { background: #ffe2e6; color: #bb1d33; }
 
-  .promo-card h3, .product-card h4 {
-    margin: 0 0 6px;
-    color: var(--dodla-text);
-  }
+      .product-emoji {
+        font-size: 58px;
+        line-height: 1;
+        margin: 10px 0 12px;
+      }
 
-  .promo-card p, .product-card p, .muted {
-    margin: 0;
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.5;
-  }
+      .price-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 10px 0 14px;
+      }
+      .sale-price {
+        font-size: 21px;
+        font-weight: 800;
+        color: var(--red);
+      }
+      .original-price {
+        font-size: 13px;
+        color: #9c8f90;
+        text-decoration: line-through;
+      }
+      .small {
+        font-size: 12px;
+        color: var(--muted);
+      }
 
-  .promo-emoji {
-    font-size: 48px;
-    line-height: 1;
-    opacity: 0.92;
-  }
+      .section-divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(229,62,77,0.18), transparent);
+        margin: 18px 0;
+      }
 
-  .category-btn {
-    text-align: center;
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 16px 10px;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--dodla-text);
-    box-shadow: 0 8px 20px rgba(18,31,62,0.04);
-  }
+      .cart-card {
+        background: linear-gradient(180deg, #fff, #fff8f9);
+        border: 1px solid rgba(229, 62, 77, 0.10);
+        border-radius: 24px;
+        padding: 18px;
+        box-shadow: var(--shadow-soft);
+      }
 
-  .product-card {
-    position: relative;
-    overflow: hidden;
-  }
+      .cart-total {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--red);
+        margin-top: 14px;
+      }
 
-  .badge {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 9px;
-    border-radius: 999px;
-    margin-right: 6px;
-    margin-bottom: 8px;
-  }
+      .trust-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
 
-  .badge.sale { background: #ffe8e8; color: #c81e1e; }
-  .badge.best { background: #fff3d6; color: #9a6400; }
+      .trust-item {
+        background: #fff;
+        border: 1px solid rgba(229, 62, 77, 0.10);
+        border-radius: 20px;
+        padding: 18px;
+        box-shadow: var(--shadow-soft);
+      }
 
-  .product-emoji {
-    font-size: 56px;
-    margin: 8px 0 12px;
-    line-height: 1;
-  }
+      .trust-item .icon {
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
 
-  .price-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 10px 0 14px;
-    flex-wrap: wrap;
-  }
+      .trust-item h4 {
+        margin: 0 0 6px;
+        color: var(--text);
+      }
+      .trust-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.65;
+      }
 
-  .sale-price {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--dodla-blue);
-  }
+      .testimonial {
+        background: linear-gradient(180deg, #fff, #fff7f8);
+        border: 1px solid rgba(229, 62, 77, 0.10);
+        border-radius: 22px;
+        padding: 18px;
+        box-shadow: var(--shadow-soft);
+      }
+      .testimonial .stars { color: #f4b400; font-size: 18px; letter-spacing: 1px; }
+      .testimonial p { color: var(--text); line-height: 1.8; font-size: 14px; }
 
-  .original-price {
-    color: #9aa3b5;
-    text-decoration: line-through;
-    font-size: 13px;
-  }
+      .faq-box {
+        background: #fff;
+        border: 1px solid rgba(229, 62, 77, 0.10);
+        border-radius: 18px;
+        margin-bottom: 10px;
+        box-shadow: var(--shadow-soft);
+        overflow: hidden;
+      }
 
-  .small {
-    font-size: 12px;
-    color: var(--muted);
-  }
+      .footer {
+        margin-top: 30px;
+        background: linear-gradient(135deg, #2b0e13, #7b1523);
+        color: white;
+        border-radius: 28px;
+        padding: 28px;
+        box-shadow: 0 24px 60px rgba(43, 14, 19, 0.18);
+      }
+      .footer h4 {
+        color: #ffd0d7;
+        margin: 0 0 10px;
+      }
+      .footer p, .footer a {
+        color: rgba(255,255,255,0.88);
+        font-size: 13px;
+        line-height: 1.85;
+        text-decoration: none;
+      }
 
-  .cart-box {
-    background: linear-gradient(180deg, #ffffff, #f8fbff);
-    border: 1px solid var(--line);
-    border-radius: 22px;
-    padding: 16px;
-    margin-bottom: 18px;
-  }
+      .stButton > button {
+        border-radius: 999px !important;
+        border: 1px solid rgba(229, 62, 77, 0.16) !important;
+        background: linear-gradient(135deg, var(--red), #ff5f71) !important;
+        color: white !important;
+        font-weight: 700 !important;
+        padding: 0.68rem 1rem !important;
+        box-shadow: 0 12px 24px rgba(229, 62, 77, 0.20) !important;
+        transition: transform .18s ease, box-shadow .18s ease !important;
+      }
+      .stButton > button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 30px rgba(229, 62, 77, 0.24) !important;
+      }
 
-  .cart-item {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    align-items: center;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-    padding: 10px 0;
-    font-size: 14px;
-  }
+      .stTextInput > div > div > input,
+      .stSelectbox > div > div,
+      .stTextArea textarea {
+        border-radius: 16px !important;
+        border: 1px solid rgba(229, 62, 77, 0.12) !important;
+        background: #fff !important;
+      }
 
-  .cart-total {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--dodla-blue);
-    margin-top: 14px;
-  }
-
-  .footer {
-    background: linear-gradient(135deg, var(--dodla-blue), #0e4cb8);
-    color: white;
-    border-radius: 24px;
-    padding: 28px;
-    margin-top: 28px;
-  }
-
-  .footer h4 { margin: 0 0 10px; color: #ffd56a; }
-  .footer p, .footer a { color: rgba(255,255,255,0.86); font-size: 13px; line-height: 1.8; text-decoration: none; }
-
-  .faq-item summary {
-    cursor: pointer;
-    font-weight: 700;
-    color: var(--dodla-text);
-  }
-
-  .faq-item {
-    background: white;
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 14px 16px;
-    margin-bottom: 10px;
-  }
-
-  .hidden-mobile { display: block; }
-
-  @media (max-width: 900px) {
-    .hero-grid, .promo-grid, .info-grid, .testimonial-grid, .category-grid {
-      grid-template-columns: 1fr;
-    }
-    .hero h1 { font-size: 34px; }
-    .hidden-mobile { display: none; }
-  }
-</style>
-""",
+      @media (max-width: 900px) {
+        .hero-grid, .grid-3, .grid-4, .grid-5, .trust-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero h1 { font-size: 36px; }
+      }
+    </style>
+    """,
     unsafe_allow_html=True,
 )
 
-# -----------------------------
+# --------------------------------------------------
 # SESSION STATE
-# -----------------------------
+# --------------------------------------------------
 if "city" not in st.session_state:
     st.session_state.city = None
 if "cart" not in st.session_state:
@@ -382,10 +462,11 @@ if "cart" not in st.session_state:
 if "show_cart" not in st.session_state:
     st.session_state.show_cart = False
 
-# -----------------------------
+# --------------------------------------------------
 # DATA
-# -----------------------------
+# --------------------------------------------------
 CITIES = ["Hyderabad", "Bangalore", "Chennai", "Vijayawada", "Tirupati"]
+
 CITY_PRICE_MULTIPLIER = {
     "Hyderabad": 1.00,
     "Bangalore": 1.05,
@@ -396,58 +477,58 @@ CITY_PRICE_MULTIPLIER = {
 
 PRODUCTS = {
     "Fresh Milk": [
-        {"name": "Full Cream Milk", "emoji": "🥛", "desc": "Rich & creamy full cream milk, 6% fat. Fresh from farms every morning.", "price": 68, "original": 75, "bestseller": True, "sale": True},
-        {"name": "Standardised Milk", "emoji": "🥛", "desc": "Standardised cow milk with 4.5% fat. Perfect for everyday use.", "price": 52, "original": None, "bestseller": False, "sale": False},
-        {"name": "Toned Milk", "emoji": "🥛", "desc": "Light & healthy toned milk with 3% fat. Great for health-conscious families.", "price": 44, "original": None, "bestseller": False, "sale": False},
-        {"name": "Double Toned Milk", "emoji": "🥛", "desc": "Low-fat double toned milk with 1.5% fat. Ideal for weight management.", "price": 40, "original": 46, "bestseller": False, "sale": True},
-        {"name": "Skimmed Milk", "emoji": "🥛", "desc": "Fat-free skimmed milk. Perfect for fitness enthusiasts and diabetics.", "price": 38, "original": None, "bestseller": False, "sale": False},
+        {"name": "Full Cream Milk", "emoji": "🥛", "desc": "Rich and creamy full cream milk, fresh every morning.", "price": 68, "original": 75, "bestseller": True, "sale": True},
+        {"name": "Standardised Milk", "emoji": "🥛", "desc": "Perfect everyday milk with balanced taste and nutrition.", "price": 52, "original": None, "bestseller": False, "sale": False},
+        {"name": "Toned Milk", "emoji": "🥛", "desc": "Light and healthy choice for family consumption.", "price": 44, "original": None, "bestseller": False, "sale": False},
+        {"name": "Double Toned Milk", "emoji": "🥛", "desc": "Low-fat milk for a lighter daily routine.", "price": 40, "original": 46, "bestseller": False, "sale": True},
     ],
     "UHT Long Life Milk": [
-        {"name": "UHT Full Cream Milk", "emoji": "📦", "desc": "Ultra-high temperature processed. Stays fresh for weeks. No boiling needed.", "price": 75, "original": 85, "bestseller": True, "sale": True},
-        {"name": "UHT Toned Milk", "emoji": "📦", "desc": "Long-life toned milk. Convenient shelf-stable pack for daily use.", "price": 32, "original": None, "bestseller": False, "sale": False},
-        {"name": "UHT Double Toned Milk", "emoji": "📦", "desc": "Light & long-lasting. Great for travel and pantry storage.", "price": 30, "original": None, "bestseller": False, "sale": False},
+        {"name": "UHT Full Cream Milk", "emoji": "📦", "desc": "Long-life milk with convenience and freshness.", "price": 75, "original": 85, "bestseller": True, "sale": True},
+        {"name": "UHT Toned Milk", "emoji": "📦", "desc": "Shelf-stable toned milk for easy storage.", "price": 32, "original": None, "bestseller": False, "sale": False},
+        {"name": "UHT Double Toned Milk", "emoji": "📦", "desc": "Light, long-lasting, and travel-friendly.", "price": 30, "original": None, "bestseller": False, "sale": False},
     ],
     "Curd & Buttermilk": [
-        {"name": "Fresh Curd – Toned", "emoji": "🫙", "desc": "Thick, creamy toned curd. Available in pouches, cups & buckets.", "price": 55, "original": 65, "bestseller": True, "sale": True},
-        {"name": "Fresh Curd – Double Toned", "emoji": "🫙", "desc": "Light and probiotic-rich double toned curd. Great for digestion.", "price": 48, "original": None, "bestseller": False, "sale": False},
-        {"name": "Spiced Buttermilk", "emoji": "🥤", "desc": "Refreshing buttermilk with a hint of spices. Perfect for summer.", "price": 20, "original": 25, "bestseller": False, "sale": True},
-        {"name": "Plain Buttermilk", "emoji": "🥤", "desc": "Pure and natural buttermilk. Light on stomach, rich in probiotics.", "price": 18, "original": None, "bestseller": False, "sale": False},
+        {"name": "Fresh Curd – Toned", "emoji": "🫙", "desc": "Thick, creamy curd in a premium pack.", "price": 55, "original": 65, "bestseller": True, "sale": True},
+        {"name": "Spiced Buttermilk", "emoji": "🥤", "desc": "Refreshing buttermilk with a subtle spice finish.", "price": 20, "original": 25, "bestseller": False, "sale": True},
+        {"name": "Plain Buttermilk", "emoji": "🥤", "desc": "Simple, natural, and probiotic rich.", "price": 18, "original": None, "bestseller": False, "sale": False},
     ],
     "Ghee": [
-        {"name": "Pure Cow Ghee", "emoji": "🫙", "desc": "Traditional cow ghee with rich aroma and golden colour.", "price": 584, "original": 650, "bestseller": True, "sale": True},
-        {"name": "Pure Buffalo Ghee", "emoji": "🫙", "desc": "Creamy buffalo milk ghee. Dense texture for sweets & cooking.", "price": 636, "original": None, "bestseller": False, "sale": False},
-        {"name": "High Aroma Ghee", "emoji": "✨", "desc": "Special high-aroma ghee with intense fragrance. Elevate every meal.", "price": 699, "original": 799, "bestseller": False, "sale": True},
+        {"name": "Pure Cow Ghee", "emoji": "🫙", "desc": "Traditional golden ghee with rich aroma.", "price": 584, "original": 650, "bestseller": True, "sale": True},
+        {"name": "Pure Buffalo Ghee", "emoji": "🫙", "desc": "Dense and creamy ghee for cooking and sweets.", "price": 636, "original": None, "bestseller": False, "sale": False},
+        {"name": "High Aroma Ghee", "emoji": "✨", "desc": "Premium fragrance for special meals.", "price": 699, "original": 799, "bestseller": False, "sale": True},
     ],
     "Paneer & Sweets": [
-        {"name": "Fresh Paneer", "emoji": "🧀", "desc": "Soft, fresh malai paneer made from full-cream milk. 200g block.", "price": 90, "original": 110, "bestseller": True, "sale": True},
-        {"name": "Masala Paneer", "emoji": "🧀", "desc": "Spice-marinated paneer. Ready to cook for quick meals.", "price": 110, "original": None, "bestseller": False, "sale": False},
-        {"name": "Doodh Peda", "emoji": "🍬", "desc": "Traditional milk sweets made from pure Dodla milk.", "price": 120, "original": 140, "bestseller": False, "sale": True},
+        {"name": "Fresh Paneer", "emoji": "🧀", "desc": "Soft malai paneer made from full-cream milk.", "price": 90, "original": 110, "bestseller": True, "sale": True},
+        {"name": "Masala Paneer", "emoji": "🧀", "desc": "Ready-to-cook paneer with a spice coating.", "price": 110, "original": None, "bestseller": False, "sale": False},
+        {"name": "Doodh Peda", "emoji": "🍬", "desc": "Traditional milk sweet with a melt-in-mouth finish.", "price": 120, "original": 140, "bestseller": False, "sale": True},
     ],
     "Flavoured Milk & Lassi": [
-        {"name": "Chocolate Flavoured Milk", "emoji": "🍫", "desc": "Rich cocoa milk drink. Kids love it. Packed with calcium & energy.", "price": 45, "original": 55, "bestseller": True, "sale": True},
-        {"name": "Badam Milk", "emoji": "🌰", "desc": "Almond-infused flavoured milk with a traditional taste.", "price": 50, "original": None, "bestseller": False, "sale": False},
-        {"name": "Rose Lassi", "emoji": "🌹", "desc": "Creamy rose-flavoured lassi made with fresh curd.", "price": 35, "original": 40, "bestseller": False, "sale": True},
-        {"name": "Mango Lassi", "emoji": "🥭", "desc": "Thick, refreshing mango lassi made with real pulp & fresh curd.", "price": 40, "original": None, "bestseller": False, "sale": False},
+        {"name": "Chocolate Flavoured Milk", "emoji": "🍫", "desc": "Cocoa-rich milk drink loved by kids.", "price": 45, "original": 55, "bestseller": True, "sale": True},
+        {"name": "Badam Milk", "emoji": "🌰", "desc": "Almond-infused drink with a classic taste.", "price": 50, "original": None, "bestseller": False, "sale": False},
+        {"name": "Rose Lassi", "emoji": "🌹", "desc": "Creamy rose lassi with fresh curd and fragrance.", "price": 35, "original": 40, "bestseller": False, "sale": True},
+        {"name": "Mango Lassi", "emoji": "🥭", "desc": "Thick lassi made with real mango pulp.", "price": 40, "original": None, "bestseller": False, "sale": False},
     ],
 }
 
-TESTIMONIALS = [
-    {"name": "Priya S.", "text": "Fresh delivery every morning and the quality feels premium."},
-    {"name": "Ravi K.", "text": "The app is easy to use and the subscription flow is smooth."},
-    {"name": "Anjali M.", "text": "Great taste, neat packaging, and fast customer support."},
-]
-
 FAQS = [
-    ("How do I place an order?", "Select your city, choose a product, and click Add to Cart. Then proceed to checkout."),
-    ("Do you offer subscriptions?", "Yes, you can turn milk delivery into a recurring subscription in the sample request section."),
+    ("How do I place an order?", "Choose your city, add products to cart, and checkout from the cart panel."),
+    ("Can this become a real store?", "Yes. Add payment, database, order tracking, and subscription scheduling."),
     ("Which cities are supported?", "Hyderabad, Bangalore, Chennai, Vijayawada, and Tirupati are enabled in this demo."),
 ]
 
 CATEGORY_ORDER = list(PRODUCTS.keys())
+CATEGORY_ICON = {
+    "Fresh Milk": "🥛",
+    "UHT Long Life Milk": "📦",
+    "Curd & Buttermilk": "🫙",
+    "Ghee": "✨",
+    "Paneer & Sweets": "🧀",
+    "Flavoured Milk & Lassi": "🍫",
+}
 
-# -----------------------------
+# --------------------------------------------------
 # HELPERS
-# -----------------------------
+# --------------------------------------------------
 def city_price(base: int) -> int:
     if st.session_state.city:
         return int(base * CITY_PRICE_MULTIPLIER.get(st.session_state.city, 1.0))
@@ -469,45 +550,47 @@ def cart_count() -> int:
     return sum(v["qty"] for v in st.session_state.cart.values())
 
 
-def render_section_title(title: str, subtitle: str = ""):
+def all_products():
+    items = []
+    for category, plist in PRODUCTS.items():
+        for product in plist:
+            items.append((category, product))
+    return items
+
+
+def render_title(title: str, subtitle: str = ""):
     st.markdown(f'<div class="section-title">{title}</div>', unsafe_allow_html=True)
     if subtitle:
         st.markdown(f'<div class="section-subtitle">{subtitle}</div>', unsafe_allow_html=True)
 
 
-def all_products():
-    items = []
-    for category, plist in PRODUCTS.items():
-        for p in plist:
-            items.append((category, p))
-    return items
-
-
-# -----------------------------
-# CITY PICKER (first run)
-# -----------------------------
+# --------------------------------------------------
+# CITY PICKER
+# --------------------------------------------------
 if st.session_state.city is None:
     st.markdown(
         """
         <div class="hero">
           <div class="hero-grid">
             <div>
-              <div class="pill">🥛 Fresh dairy delivered daily</div>
+              <div class="eyebrow">🥛 Premium dairy shopping experience</div>
               <h1>Welcome to <span>Dodla Dairy</span></h1>
               <p>
-                Select your city to start browsing milk, curd, paneer, ghee, and flavoured dairy products.
-                This layout is designed to feel like a premium dairy ecommerce site.
+                Select your city to browse a premium storefront for milk, curd, paneer, ghee,
+                and flavoured dairy products.
               </p>
               <div class="hero-actions">
                 <div class="pill">🚚 Free delivery above ₹299</div>
-                <div class="pill">⭐ Premium quality</div>
-                <div class="pill">📦 Subscription-friendly</div>
+                <div class="pill">⭐ Fresh premium quality</div>
+                <div class="pill">📦 Subscription ready</div>
               </div>
             </div>
-            <div class="hero-card">
+            <div class="hero-panel">
               <div class="hero-emoji">🐄</div>
               <h3 style="margin:0 0 8px;">Choose your city</h3>
-              <p style="margin:0 0 14px; opacity:0.92;">We deliver fresh dairy products across South India.</p>
+              <p style="margin:0; color:var(--muted); line-height:1.7;">
+                We deliver fresh dairy products across South India.
+              </p>
             </div>
           </div>
         </div>
@@ -524,76 +607,68 @@ if st.session_state.city is None:
                 st.rerun()
     st.stop()
 
-# -----------------------------
-# TOP BAR / NAV
-# -----------------------------
+# --------------------------------------------------
+# TOP BAR
+# --------------------------------------------------
 st.markdown(
-    f'<div class="topbar">🚚 Free delivery on orders above ₹299 | Delivering in <strong>{st.session_state.city}</strong> | Established 1995</div>',
+    f'<div class="topbar">🚚 Free delivery on orders above ₹299 | Delivering in <strong>{st.session_state.city}</strong> | Fresh dairy since 1995</div>',
     unsafe_allow_html=True,
 )
 
-nav_left, nav_mid, nav_right = st.columns([1.1, 2.8, 1.1])
-with nav_left:
+# --------------------------------------------------
+# NAVBAR
+# --------------------------------------------------
+st.markdown('<div class="navbar-shell">', unsafe_allow_html=True)
+n1, n2, n3, n4 = st.columns([1.1, 2.8, 1.2, 0.8])
+with n1:
     st.markdown('<div class="brand">Dodla <span>Dairy</span> 🥛</div>', unsafe_allow_html=True)
-
-with nav_mid:
+with n2:
     search_query = st.text_input(
         "",
         placeholder="Search products, categories, or favorites…",
         label_visibility="collapsed",
     )
-
-with nav_right:
+with n3:
     chosen = st.selectbox("City", [f"📍 {c}" for c in CITIES], index=CITIES.index(st.session_state.city), label_visibility="collapsed")
     new_city = chosen.replace("📍 ", "")
     if new_city != st.session_state.city:
         st.session_state.city = new_city
         st.rerun()
+with n4:
+    if st.button(f"🛒 {cart_count()}", use_container_width=True):
+        st.session_state.show_cart = not st.session_state.show_cart
+st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown(
-    """
-    <div class="navbar">
-      <div class="nav-links" style="justify-content:flex-start; flex:1;">
-        <a class="nav-link" href="#shop">Products</a>
-        <a class="nav-link" href="#offers">Offers</a>
-        <a class="nav-link" href="#stories">Stories</a>
-        <a class="nav-link" href="#faq">FAQs</a>
-      </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
-st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
-
-# -----------------------------
+# --------------------------------------------------
 # HERO
-# -----------------------------
+# --------------------------------------------------
 st.markdown(
     f"""
     <div class="hero">
       <div class="hero-grid">
         <div>
-          <div class="pill">🥛 Fresh milk. Pure taste. Daily delivery.</div>
-          <h1>Milk, curd & daily essentials, <span>delivered fresh</span></h1>
+          <div class="eyebrow">✨ White & red premium storefront</div>
+          <h1>Fresh dairy delivered <span>beautifully</span></h1>
           <p>
-            Explore Dodla’s premium dairy range in a polished ecommerce layout inspired by top modern dairy websites.
-            Choose your products, add them to cart, and checkout in a clean, premium flow.
+            A polished, premium homepage for Dodla with elegant cards, soft shadows, rich spacing,
+            and a warm red identity.
           </p>
           <div class="hero-actions">
-            <div class="pill">🚚 Free delivery above ₹299</div>
-            <div class="pill">⏱️ Morning delivery slots</div>
-            <div class="pill">⭐ Premium quality</div>
+            <div class="pill">🕗 Morning delivery slots</div>
+            <div class="pill">⭐ Premium curated range</div>
+            <div class="pill">🚚 Fast city delivery</div>
           </div>
         </div>
-        <div class="hero-card">
-          <div class="hero-emoji">🐄</div>
-          <div style="font-size:18px;font-weight:800; margin-bottom:6px;">Fresh from farm to fridge</div>
-          <div style="font-size:13px; opacity:0.92; line-height:1.6;">Serving {st.session_state.city} with curated dairy essentials, subscriptions, and family favorites.</div>
-          <div class="hero-mini">
-            <div class="mini-stat"><h3>24h</h3><p>delivery feel</p></div>
-            <div class="mini-stat"><h3>5</h3><p>cities</p></div>
-            <div class="mini-stat"><h3>100%</h3><p>freshness</p></div>
+        <div class="hero-panel">
+          <div class="hero-emoji">❤️🥛</div>
+          <h3 style="margin:0 0 8px;">Farm fresh daily</h3>
+          <p style="margin:0; color:var(--muted); line-height:1.7;">
+            Premium quality, elegant packaging, and a simple shopping flow.
+          </p>
+          <div class="hero-metrics">
+            <div class="metric"><h3>24h</h3><p>fresh feel</p></div>
+            <div class="metric"><h3>5</h3><p>cities</p></div>
+            <div class="metric"><h3>100%</h3><p>care</p></div>
           </div>
         </div>
       </div>
@@ -602,23 +677,23 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# -----------------------------
-# PROMO BANNERS
-# -----------------------------
-st.markdown('<div id="offers"></div>', unsafe_allow_html=True)
-render_section_title("Special offers", "Highlight a few premium campaigns just like a modern dairy storefront.")
+# --------------------------------------------------
+# OFFERS
+# --------------------------------------------------
+render_title("Special offers", "Premium promotional cards that make the homepage feel polished.")
 promo_cols = st.columns(3)
 promos = [
     ("Morning milk plan", "Start a recurring delivery subscription.", "🕗"),
-    ("Family pack savings", "Buy more and save on bulk dairy essentials.", "🎁"),
-    ("Paneer for dinner", "Fresh paneer and masala paneer for quick meals.", "🧀"),
+    ("Family pack savings", "Buy more and save on essentials.", "🎁"),
+    ("Paneer for dinner", "Fresh paneer for quick meals.", "🧀"),
 ]
-for c, (title, desc, emoji) in zip(promo_cols, promos):
-    with c:
+for col, (title, desc, emoji) in zip(promo_cols, promos):
+    with col:
         st.markdown(
             f"""
             <div class="card promo-card">
               <div>
+                <div class="promo-label">Featured</div>
                 <h3>{title}</h3>
                 <p>{desc}</p>
               </div>
@@ -628,50 +703,40 @@ for c, (title, desc, emoji) in zip(promo_cols, promos):
             unsafe_allow_html=True,
         )
 
-# -----------------------------
+# --------------------------------------------------
 # CATEGORIES
-# -----------------------------
-st.markdown('<div id="shop"></div>', unsafe_allow_html=True)
-render_section_title("Shop by category", "Premium category tiles for a cleaner ecommerce-style homepage.")
+# --------------------------------------------------
+render_title("Shop by category", "Neat category tiles with a luxury ecommerce feel.")
 cat_cols = st.columns(5)
-category_icons = {
-    "Fresh Milk": "🥛",
-    "UHT Long Life Milk": "📦",
-    "Curd & Buttermilk": "🫙",
-    "Ghee": "✨",
-    "Paneer & Sweets": "🧀",
-    "Flavoured Milk & Lassi": "🍫",
-}
 for idx, cat in enumerate(CATEGORY_ORDER):
     with cat_cols[idx % 5]:
         st.markdown(
             f"""
-            <div class="category-btn">
-              <div style="font-size:28px; margin-bottom:8px;">{category_icons.get(cat, '🥛')}</div>
+            <div class="category-pill">
+              <div style="font-size:28px; margin-bottom:8px;">{CATEGORY_ICON.get(cat, '🥛')}</div>
               {cat}
             </div>
             """,
             unsafe_allow_html=True,
         )
 
-# -----------------------------
-# MAIN SHOP + CART
-# -----------------------------
+# --------------------------------------------------
+# SHOP + CART
+# --------------------------------------------------
 shop_col, cart_col = st.columns([2.2, 1])
 
 with shop_col:
     if search_query:
         q = search_query.lower().strip()
         items = [(cat, p) for cat, p in all_products() if q in p["name"].lower() or q in cat.lower()]
-        render_section_title("Search results", f"Matching products for “{search_query}”.")
+        render_title("Search results", f"Matching products for “{search_query}”.")
     else:
         items = all_products()
-        render_section_title("Best sellers & daily essentials", "A premium product grid with city-aware pricing and easy add-to-cart actions.")
+        render_title("Best sellers & daily essentials", "A premium product grid with city-aware pricing and elegant add-to-cart actions.")
 
     if not items:
         st.info("No products matched your search.")
     else:
-        # 3-column responsive product cards
         for i in range(0, len(items), 3):
             row = items[i:i+3]
             cols = st.columns(3)
@@ -679,26 +744,32 @@ with shop_col:
                 with col:
                     price = city_price(product["price"])
                     original = city_price(product["original"]) if product["original"] else None
+
+                    badges = ""
+                    if product["bestseller"]:
+                        badges += '<span class="badge best">Best seller</span>'
+                    if product["sale"]:
+                        badges += '<span class="badge sale">Sale</span>'
+
                     st.markdown(
                         f"""
                         <div class="card product-card">
-                          <div>
-                            {'<span class="badge best">Best seller</span>' if product['bestseller'] else ''}
-                            {'<span class="badge sale">Sale</span>' if product['sale'] else ''}
-                            <div class="product-emoji">{product['emoji']}</div>
-                            <h4>{product['name']}</h4>
-                            <div class="small">{category}</div>
-                            <p style="margin-top:8px;">{product['desc']}</p>
-                          </div>
+                          {badges}
+                          <div class="product-emoji">{product['emoji']}</div>
+                          <h4>{product['name']}</h4>
+                          <div class="small">{category}</div>
+                          <p style="margin-top:8px;">{product['desc']}</p>
                         </div>
                         """,
                         unsafe_allow_html=True,
                     )
-                    st.markdown('<div style="height:6px;"></div>', unsafe_allow_html=True)
-                    st.markdown(
-                        f"<div class='price-row'><div class='sale-price'>₹{price}</div>{f"<div class='original-price'>₹{original}</div>" if original else ''}</div>",
-                        unsafe_allow_html=True,
-                    )
+
+                    price_html = f"<div class='sale-price'>₹{price}</div>"
+                    if original:
+                        price_html += f"<div class='original-price'>₹{original}</div>"
+
+                    st.markdown(f"<div class='price-row'>{price_html}</div>", unsafe_allow_html=True)
+
                     if st.button(f"Add to cart — {product['name']}", key=f"add_{category}_{product['name']}", use_container_width=True):
                         add_to_cart(product["name"], price)
                         st.toast(f"Added {product['name']} to cart")
@@ -707,10 +778,10 @@ with shop_col:
 with cart_col:
     st.markdown(
         f"""
-        <div class="cart-box">
+        <div class="cart-card">
           <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
             <div>
-              <div style="font-size:18px; font-weight:800; color:var(--dodla-blue);">🛒 Cart</div>
+              <div style="font-size:18px; font-weight:800; color:var(--text);">🛒 Cart</div>
               <div class="small">{cart_count()} item(s)</div>
             </div>
             <div style="font-size:28px;">🧺</div>
@@ -721,7 +792,7 @@ with cart_col:
     )
 
     if not st.session_state.cart:
-        st.info("Your cart is empty. Add some products from the shop.")
+        st.info("Your cart is empty. Add products from the shop.")
     else:
         for prod_name, details in list(st.session_state.cart.items()):
             c1, c2 = st.columns([2.2, 1])
@@ -741,156 +812,136 @@ with cart_col:
                     del st.session_state.cart[prod_name]
                     st.rerun()
                 st.session_state.cart[prod_name]["qty"] = int(new_qty)
-            st.markdown("---")
+            st.markdown('<div class="section-divider"></div>', unsafe_allow_html=True)
 
         st.markdown(f"<div class='cart-total'>Total: ₹{cart_total()}</div>", unsafe_allow_html=True)
-        st.caption("Checkout is demo-only in this file. Connect Razorpay or Stripe for live payments.")
+        st.caption("Checkout is demo-only here. Connect a payment gateway for live orders.")
         if st.button("Checkout", type="primary", use_container_width=True):
-            st.success("Order placed! Connect a payment gateway and order backend next.")
+            st.success("Order placed! Connect payments and backend next.")
             st.session_state.cart = {}
             st.rerun()
 
-# -----------------------------
-# WHY DODLA
-# -----------------------------
-st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
-render_section_title("Why choose Dodla", "A polished trust section, similar to modern ecommerce dairy pages.")
-info_cols = st.columns(4)
-info_data = [
+# --------------------------------------------------
+# TRUST / WHY
+# --------------------------------------------------
+render_title("Why choose Dodla", "A premium trust block for a more elevated homepage.")
+trust_cols = st.columns(4)
+trust_data = [
     ("🏭", "Farm fresh", "Milk sourced and packaged for freshness."),
-    ("🚚", "Fast delivery", "Daily delivery experience across supported cities."),
+    ("🚚", "Fast delivery", "City-wise delivery experience built in."),
     ("🧾", "Easy ordering", "Simple cart and checkout flow."),
-    ("⭐", "Premium quality", "Consistent dairy essentials and family favorites."),
+    ("⭐", "Premium quality", "Carefully curated dairy essentials."),
 ]
-for c, (emoji, title, desc) in zip(info_cols, info_data):
-    with c:
+for col, (icon, title, desc) in zip(trust_cols, trust_data):
+    with col:
         st.markdown(
             f"""
-            <div class="card">
-              <div style="font-size:34px; margin-bottom:10px;">{emoji}</div>
-              <h3 style="margin:0 0 8px;">{title}</h3>
+            <div class="trust-item">
+              <div class="icon">{icon}</div>
+              <h4>{title}</h4>
               <p>{desc}</p>
             </div>
             """,
             unsafe_allow_html=True,
         )
 
-# -----------------------------
+# --------------------------------------------------
 # TESTIMONIALS
-# -----------------------------
-st.markdown('<div id="stories"></div>', unsafe_allow_html=True)
-render_section_title("What customers say", "A section like Provilac’s story/review blocks, adapted for Dodla.")
+# --------------------------------------------------
+render_title("What customers say", "A soft social-proof section that adds a premium feel.")
 review_cols = st.columns(3)
-for c, review in zip(review_cols, TESTIMONIALS):
-    with c:
+TESTIMONIALS = [
+    {"name": "Priya S.", "text": "Very elegant layout. It looks like a real premium dairy brand."},
+    {"name": "Ravi K.", "text": "The white and red theme feels polished and modern."},
+    {"name": "Anjali M.", "text": "Beautiful product cards and a clean shopping flow."},
+]
+for col, review in zip(review_cols, TESTIMONIALS):
+    with col:
         st.markdown(
             f"""
-            <div class="card">
-              <div style="font-size:24px;">★★★★★</div>
-              <p style="margin:10px 0 14px; color:var(--dodla-text); font-size:14px; line-height:1.7;">“{review['text']}”</p>
-              <div style="font-weight:700; color:var(--dodla-blue);">{review['name']}</div>
+            <div class="testimonial">
+              <div class="stars">★★★★★</div>
+              <p>“{review['text']}”</p>
+              <div style="font-weight:700; color:var(--red);">{review['name']}</div>
             </div>
             """,
             unsafe_allow_html=True,
         )
 
-# -----------------------------
-# SAMPLE REQUEST / SUBSCRIPTION FORM
-# -----------------------------
-render_section_title("Request a sample / subscribe", "Capture leads like a premium dairy ecommerce site.")
+# --------------------------------------------------
+# SAMPLE / SUBSCRIPTION FORM
+# --------------------------------------------------
+render_title("Request a sample / subscribe", "Capture leads with a premium-looking form.")
 left, right = st.columns([1.2, 1])
+
 with left:
     with st.form("sample_form"):
         name = st.text_input("Full name")
         mobile = st.text_input("Mobile number")
         city = st.selectbox("City", CITIES, index=CITIES.index(st.session_state.city))
         product = st.selectbox("Product", [p["name"] for _, p in all_products()])
-        note = st.text_area("Delivery notes", placeholder="Apartment name, landmark, delivery time, etc.")
+        note = st.text_area("Delivery notes", placeholder="Apartment, landmark, preferred time, etc.")
         submitted = st.form_submit_button("Request sample / subscribe")
         if submitted:
             st.success(f"Thanks {name or 'there'} — your request for {product} in {city} is noted.")
+
 with right:
     st.markdown(
         """
-        <div class="card">
-          <h3 style="margin:0 0 10px; color:var(--dodla-blue);">📱 Premium delivery experience</h3>
-          <p style="margin:0; line-height:1.8;">
-            This section works well as your lead capture, subscription request, or contact form.
-            It matches the style of a modern D2C dairy homepage without needing a full backend.
+        <div class="form-card card">
+          <h3>Premium delivery experience</h3>
+          <p>
+            This section is ideal for lead capture, sample requests, and subscription signups.
+            It keeps the page feeling like a real premium ecommerce storefront.
           </p>
-          <div style="margin-top:14px;" class="small">Suggested next step: connect this form to email, CRM, or a database.</div>
+          <div class="section-divider"></div>
+          <p class="small">
+            Next step: connect this form to email, CRM, database, and a payment gateway.
+          </p>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-# -----------------------------
+# --------------------------------------------------
 # FAQ
-# -----------------------------
-st.markdown('<div id="faq"></div>', unsafe_allow_html=True)
-render_section_title("Frequently asked questions", "Simple expandable answers for a clean ecommerce experience.")
+# --------------------------------------------------
+render_title("Frequently asked questions", "Clean expandable answers for a premium user experience.")
+FAQS = [
+    ("How do I place an order?", "Choose your city, add products to cart, and checkout from the cart panel."),
+    ("Can this become a real store?", "Yes. Add payment, database, order tracking, and subscription scheduling."),
+    ("Which cities are supported?", "Hyderabad, Bangalore, Chennai, Vijayawada, and Tirupati are enabled in this demo."),
+]
 for question, answer in FAQS:
     with st.expander(question):
         st.write(answer)
 
-# -----------------------------
+# --------------------------------------------------
 # FOOTER
-# -----------------------------
-footer_cols = st.columns(4)
-with footer_cols[0]:
-    st.markdown(
-        """
-        <div class="footer">
-          <h4>Dodla Dairy</h4>
-          <p>Fresh dairy products with a premium shopping experience.</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-with footer_cols[1]:
-    st.markdown(
-        """
-        <div class="footer">
-          <h4>Shop</h4>
-          <p>Milk</p>
-          <p>Curd</p>
-          <p>Paneer</p>
-          <p>Ghee</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-with footer_cols[2]:
-    st.markdown(
-        """
-        <div class="footer">
-          <h4>Support</h4>
-          <p>FAQs</p>
-          <p>Delivery</p>
-          <p>Orders</p>
-          <p>Contact</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-with footer_cols[3]:
-    st.markdown(
-        """
-        <div class="footer">
-          <h4>Contact</h4>
-          <p>hello@dodla.com</p>
-          <p>+91 00000 00000</p>
-          <p>South India</p>
-          <p>Privacy • Terms</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
+# --------------------------------------------------
 st.markdown(
     f"""
-    <div class="footer" style="margin-top:18px; text-align:center;">
-      <div style="font-size:13px; opacity:0.9;">© 2026 Dodla Dairy • Delivering in {st.session_state.city}</div>
+    <div class="footer">
+      <div class="grid-4">
+        <div>
+          <h4>Dodla Dairy</h4>
+          <p>Premium dairy shopping in a clean white and red aesthetic.</p>
+        </div>
+        <div>
+          <h4>Shop</h4>
+          <p>Milk<br/>Curd<br/>Paneer<br/>Ghee</p>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <p>FAQs<br/>Delivery<br/>Orders<br/>Contact</p>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <p>hello@dodla.com<br/>+91 00000 00000<br/>Delivering in {st.session_state.city}</p>
+        </div>
+      </div>
+      <div class="section-divider" style="background: rgba(255,255,255,0.18);"></div>
+      <div style="text-align:center; font-size:13px; opacity:0.9;">© 2026 Dodla Dairy • White & red premium experience</div>
     </div>
     """,
     unsafe_allow_html=True,
