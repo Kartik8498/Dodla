@@ -20,8 +20,22 @@ st.markdown(
 
       html, body, [class*="css"]  {
         font-family: 'Poppins', sans-serif;
-        background: #fffdfd;
+        background: #ffffff !important;
         color: #1d1b1b;
+        color-scheme: light;
+      }
+
+      .stApp,
+      .main,
+      section.main,
+      [data-testid="stAppViewContainer"],
+      [data-testid="stHeader"],
+      [data-testid="stToolbar"] {
+        background: #ffffff !important;
+      }
+
+      .stApp {
+        background-image: linear-gradient(180deg, #ffffff 0%, #fffefe 100%);
       }
 
       :root{
@@ -45,6 +59,11 @@ st.markdown(
         padding-top: 0.5rem;
         padding-bottom: 2rem;
         max-width: 1400px;
+        background: #ffffff !important;
+      }
+
+      .main .block-container {
+        background: #ffffff !important;
       }
 
       #MainMenu, footer, header { visibility: hidden; }
@@ -401,18 +420,19 @@ st.markdown(
 
       .footer {
         margin-top: 30px;
-        background: linear-gradient(135deg, #2b0e13, #7b1523);
-        color: white;
+        background: linear-gradient(180deg, #ffffff 0%, #fff8f9 100%);
+        color: var(--text);
+        border: 1px solid rgba(229, 62, 77, 0.10);
         border-radius: 28px;
         padding: 28px;
-        box-shadow: 0 24px 60px rgba(43, 14, 19, 0.18);
+        box-shadow: var(--shadow-soft);
       }
       .footer h4 {
-        color: #ffd0d7;
+        color: var(--red);
         margin: 0 0 10px;
       }
       .footer p, .footer a {
-        color: rgba(255,255,255,0.88);
+        color: var(--muted);
         font-size: 13px;
         line-height: 1.85;
         text-decoration: none;
@@ -435,7 +455,9 @@ st.markdown(
 
       .stTextInput > div > div > input,
       .stSelectbox > div > div,
-      .stTextArea textarea {
+      .stTextArea textarea,
+      [data-baseweb="select"] > div,
+      [data-baseweb="input"] > div {
         border-radius: 16px !important;
         border: 1px solid rgba(229, 62, 77, 0.12) !important;
         background: #fff !important;
@@ -940,7 +962,7 @@ st.markdown(
           <p>hello@dodla.com<br/>+91 00000 00000<br/>Delivering in {st.session_state.city}</p>
         </div>
       </div>
-      <div class="section-divider" style="background: rgba(255,255,255,0.18);"></div>
+      <div class="section-divider" style="background: linear-gradient(90deg, transparent, rgba(229,62,77,0.14), transparent);"></div>
       <div style="text-align:center; font-size:13px; opacity:0.9;">© 2026 Dodla Dairy • White & red premium experience</div>
     </div>
     """,
